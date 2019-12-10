@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="currencyApp">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Dynamic currency changes</title>
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.7.8/angular.js"></script>
+  <script src="app.module.js"></script>
+
+<body ng-controller='dateController'>
+
+  <header class="row align-items-center border-info border-bottom">
+    
+    <div class="col-md-8 font-size-4 text-center align-items-center">
+      <img src="C:\Users\emukhin\Downloads\molumen_Lenin_silhouette.svg" width="25rem" height="25rem" alt="lenin">
+      Dynamic currency changes
+    </div>
+    <div class="col-md-4 border-info border-left text-center">
+        The current date is: <br> {{ date | date:'longDate' }}
+    </div>
+    
+  </header>
+
+  
+  
+</body>
