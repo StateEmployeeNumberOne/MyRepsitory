@@ -1,9 +1,14 @@
 'use strict';
 
 var currencyApp = angular.module('currencyApp', [
+  'valuteList',
+  'headerDate',
+  ]);
 
-]);
 
-currencyApp.controller('dateController' , function($scope){
-  $scope.date = new Date();
-});
+
+
+
+
+
+    

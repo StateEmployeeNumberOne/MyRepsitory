@@ -58,7 +58,7 @@
                 <span id="up" ng-if='reverse'  ng-click="sortButtonClick()">&#9650</span> 
               </span>
             </li>
-            <li class="list-group-item" dir-paginate="prop in result |itemsPerPage:selectedName | filter:filter.name | orderBy:'result.Value':reverse" current-page="page">
+            <li class="list-group-item" dir-paginate="prop in result |itemsPerPage:selectedName | filter:filter.name | orderBy:'Value':reverse" current-page="page">
               <span>{{prop.Value}}</span>
             </li>
 

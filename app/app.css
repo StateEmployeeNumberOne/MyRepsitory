@@ -1,0 +1,53 @@
+@import url('https://fonts.googleapis.com/css?family=Roboto&display=swap');
+
+*{
+  font-family: 'Roboto';
+}
+
+.pagination>li>a{
+    padding: 0.25rem 0.5rem;
+    color: #428bca;
+    background-color: #fff;
+    border: 1px solid #ddd;
+}
+.select{
+  border: 1px solid #ddd;
+  margin: 0rem 0.2rem;
+  color: #428bca;
+}
+.pagination>.active>a{
+  z-index: 2;
+  color: #fff;
+  background-color: #428bca;
+  border-color: #428bca;
+  cursor: default;
+}
+.ng-scope>a:hover{
+  text-decoration: none;
+  background-color: #90cafd ;
+}
+
+.ng-scope .disabled>a{
+  cursor: not-allowed !important;
+  text-decoration: none;
+}
+
+.valute_name_text{
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap; 
+}
+.valute_name:hover .valute_name_text {
+  position: absolute;
+  background-color: green;
+  color: #fff;
+  text-align: center;
+  border-radius: 6px;
+  font-size: 0.8rem; 
+  z-index: 10;
+}
+
+
+
+
+/*# sourceMappingURL=app.css.map */
