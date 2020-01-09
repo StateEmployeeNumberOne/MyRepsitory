@@ -1,48 +1,43 @@
 "use strict";
-
 angular
   .module("valuteList", [
     "angularUtils.directives.dirPagination",
     "ui.bootstrap"
   ])
   .controller("valute", function valuteList($scope, $http) {
-    $http.get('https://www.cbr-xml-daily.ru/daily_json.js').then(function(response) {
-      $scope.a = JSON.stringify(response.data.Valute)
-      console.log(typeof $scope.a)
-      $scope.b = JSON.parse($scope.a)
-      console.log($scope.a)
-      console.log($scope.b)
-      $scope.valute_array = Object.values($scope.b);
-      console.log(typeof $scope.b)
-      console.log($scope.valute_array)
-      
-      $scope.result=$scope.valute_array;
-      for (let k of $scope.result) {
-        switch (k.Nominal){
-          case 10: 
-            k.Value=(k.Value/10).toFixed(3);
-            k.Previous=(k.Previous/10).toFixed(3);
-            break;
-          case 100: 
-            k.Value=(k.Value/100).toFixed(3);
-            k.Previous=(k.Previous/100).toFixed(3)
-            break;
-          case 1000: 
-            k.Value=(k.Value/1000).toFixed(3);
-            k.Previous=(k.Previous/1000).toFixed(3)
-            break;
-          case 10000: 
-            k.Value=(k.Value/10000).toFixed(3);
-            k.Previous=(k.Previous/10000).toFixed(3)
-            break;
-          default:
-            k.Value=k.Value.toFixed(3);
-            k.Previous=k.Previous.toFixed(3)
-            break;
-        }
-      }
-    });
-
+    $http
+      .get("https://www.cbr-xml-daily.ru/daily_json.js")
+      .then(function(response) {
+        $scope.valute_array = Object.values(response.data.Valute);
+        for (let k of $scope.valute_array) {
+          switch (k.Nominal) {
+            // Math.round округляет до 3 знаков после
+            // можно сделать через + и toFixed
+            case 10:
+              k.Value = Math.round((k.Value / 10) * 1000) / 1000;
+              k.Previous = Math.round((k.Previous / 10) * 1000) / 1000;
+              break;
+            case 100:
+              k.Value = Math.round((k.Value / 100) * 1000) / 1000;
+              k.Previous = Math.round((k.Previous / 100) * 1000) / 1000;
+              break;
+            case 1000:
+              k.Value = Math.round((k.Value / 1000) * 1000) / 1000;
+              k.Previous = Math.round((k.Previous / 1000) * 1000) / 1000;
+              break;
+            case 10000:
+              k.Value = Math.round((k.Value / 10000) * 1000) / 1000;
+              k.Previous = Math.round((k.Previous / 10000) * 1000) / 1000;
+              break;
+            default:
+              k.Value = Math.round((k.Value) * 1000) / 1000;
+              k.Previous = Math.round((k.Previous) * 1000) / 1000;
+              break;
+          }
+    
+        } 
+      })
+       
     $scope.options = [
       { id: 3, label: "3" },
       { id: 5, label: "5" },
@@ -77,32 +72,13 @@ angular
     if (localStorage.getItem("pag")) {
       $scope.selectedName = localStorage.getItem("pag");
     }
+  // }).filter('difference' , function () {
+  //   return function (str) {
+  //         if (Number(str)>0) {
+  //           return '\u2B08' + str;
+  //         } else if (Number(str)<0) {
+  //             return '\u2B07' + str;
+  //           } else return 
+        
+  //   };
   });
-
-// parseInt(localStorage.getItem('pag').replace(/\D+/g,''));
-
-
-// for (let k of $scope.valute_array) {
-//   switch (k.Nominal) {
-//     case 10:
-//       k.Value = Number((k.Value / 10).toFixed(3));
-//       k.Previous = (k.Previous / 10).toFixed(3);
-//       break;
-//     case 100:
-//       k.Value = Number((k.Value / 100).toFixed(3));
-//       k.Previous = (k.Previous / 100).toFixed(3);
-//       break;
-//     case 1000:
-//       k.Value = Number((k.Value / 1000).toFixed(3));
-//       k.Previous = (k.Previous / 1000).toFixed(3);
-//       break;
-//     case 10000:
-//       k.Value = Number((k.Value / 10000).toFixed(3));
-//       k.Previous = (k.Previous / 10000).toFixed(3);
-//       break;
-//     default:
-//       k.Value = Number(k.Value.toFixed(3));
-//       k.Previous = k.Previous.toFixed(3);
-//       break;
-//   }
-// }

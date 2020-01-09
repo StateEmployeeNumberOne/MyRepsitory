@@ -40,8 +40,8 @@
             </th>
             <th>
               <span>RUB</span>
-              <span id="down" ng-if='!reverse'  ng-click="sortButtonClick()">&#9660</span>
-              <span id="up" ng-if='reverse'  ng-click="sortButtonClick()">&#9650</span>
+              <span ng-if='!reverse'  ng-click="sortButtonClick()">&#9660</span>
+              <span ng-if='reverse'  ng-click="sortButtonClick()">&#9650</span>
             </th>
             </thead>
           </tr>
@@ -49,7 +49,11 @@
             <td>
               {{prop.CharCode}} {{prop.Name}}
             </td>
-            <td>{{prop.Value}}</td>
+            <td>{{prop.Value | number:3}} 
+                <span class="pl-3" ng-style="{color:((prop.Value - prop.Previous) > 0)  ? 'green' : (prop.Value - prop.Previous) < 0 ? 'red' : 'black'}">
+                  {{prop.Value - prop.Previous | number:3 }} {{(prop.Value - prop.Previous) > 0 ? '\u2B61' : (prop.Value - prop.Previous) < 0 ? '\u2B63' : '\u2B62'}}
+                </span>
+            </td>
           </tr>
         </table>
     </div>
