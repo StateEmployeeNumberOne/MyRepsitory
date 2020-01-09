@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <meta http-equiv="Pragma" content="no-cache" content="ie=edge">
   <title>Dynamic currency changes</title>
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
   <link rel="stylesheet" href="app.css">
@@ -14,16 +14,16 @@
   <script src="header/header.module.js"></script>
   <script src="valute-list/valute-list.controller.js"></script>
   <script src="header/header.controller.js"></script>
-  <script src="https://kit.fontawesome.com/9c06e3754d.js" crossorigin="anonymous"></script>
   <script src="https://cdn.jsdelivr.net/npm/angular-utils-pagination@0.11.1/dirPagination.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/angular-ui-bootstrap/2.5.0/ui-bootstrap-tpls.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.js"></script>
+  <script src="../app/node_modules/az/dist/az.js"></script>
  
 
 <body>
   <header ng-controller='header' class="row align-items-center border-info border-bottom">
     <div class="col-md-8 text-center align-items-center">
-      <img src="C:\Users\emukhin\Downloads\molumen_Lenin_silhouette.svg" width="25rem" height="25rem" alt="lenin">
+      <img src="molumen_Lenin_silhouette.svg" width="25rem" height="25rem" alt="lenin">
       Dynamic currency changes
     </div>
     <div class="col-md-4 border-info border-left text-center">
@@ -32,53 +32,39 @@
   </header>
   <div ng-controller='valute' ng-model='result'>
     <div class="row justify-content-center">
-      <div class="pr-0 pl-0 col-md-4">
-          <ul class="list-group">
-            <li class="list-group-item d-flex">
+        <table class="table col-md-5 table-bordered table-hover">
+          <thead class="thead-dark">
+          <tr>
+            <th>
               <input  style="height:1.5rem" class="input-group-sm" placeholder="Search" type="text" ng-model="filter.name" />
-            </li>
-            <li class="list-group-item d-flex valute_name" dir-paginate="prop in result  |itemsPerPage:selectedName | filter:filter.name | orderBy:'Value':reverse"  >
-                <span >
-                  {{prop.CharCode}}
-                </span> 
-                <div class="valute_name_text pl-2 ">
-                <span >
-                  {{prop.Name}}
-                </span> 
-                </div>
-            </li>
-          </ul>  
-        </div>
-        <div class="pr-0 pl-0 col-md-2">
-          <ul class="list-group">
-            <li class="list-group-item d-flex">
+            </th>
+            <th>
               <span>RUB</span>
-              <span class="pl-2" id="down">
-                <span id="down" ng-if='!reverse'  ng-click="sortButtonClick()">&#9660</span>
-                <span id="up" ng-if='reverse'  ng-click="sortButtonClick()">&#9650</span> 
-              </span>
-            </li>
-            <li class="list-group-item" dir-paginate="prop in result |itemsPerPage:selectedName | filter:filter.name | orderBy:'Value':reverse" current-page="page">
-              <span>{{prop.Value}}</span>
-            </li>
-
-          </ul>
-        </div>
+              <span id="down" ng-if='!reverse'  ng-click="sortButtonClick()">&#9660</span>
+              <span id="up" ng-if='reverse'  ng-click="sortButtonClick()">&#9650</span>
+            </th>
+            </thead>
+          </tr>
+          <tr class="valute_name col-md-3" dir-paginate="prop in valute_array  |itemsPerPage:selectedName | filter:filter.name | orderBy:'Value':reverse" current-page="page"  >
+            <td>
+              {{prop.CharCode}} {{prop.Name}}
+            </td>
+            <td>{{prop.Value}}</td>
+          </tr>
+        </table>
     </div>
       <div class="mt-3 row justify-content-center">
         <dir-pagination-controls 
         class="locale_storage_list"
         ng-click="currentPage()"
         max-size="7"
-        direction-links="true"
-       ></dir-pagination-controls>
+        direction-links="true">
+      </dir-pagination-controls>
         Выберите количество отображаемых страниц:
         <select id="pag" class="mb-3 select" ng-model="selectedName" ng-options="option.id as option.label for option in options track by option.id">
-          
         </select>
       </div>
-
   </div>
- 
 </body>
 </html>
+
