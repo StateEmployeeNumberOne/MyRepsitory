@@ -3,7 +3,14 @@
 *{
   font-family: 'Roboto';
 }
-
+.displayed{
+  position: relative;
+  bottom: 0.2rem;
+}
+.update{
+  opacity: 0.5;
+  font-size: 0.8rem;
+}
 .pagination>li>a{
     padding: 0.25rem 0.5rem;
     color: #428bca;
@@ -12,19 +19,20 @@
 }
 .select{
   border: 1px solid #ddd;
-  margin: 0rem 0.2rem;
-  color: #428bca;
+  padding: 0.18rem 0rem;
+  position: relative;
+  bottom: 0.2rem;
 }
 .pagination>.active>a{
   z-index: 2;
   color: #fff;
-  background-color: #428bca;
-  border-color: #428bca;
+  background-color: #495057;
+  border-color: #495057;
   cursor: default;
 }
 .ng-scope>a:hover{
   text-decoration: none;
-  background-color: #90cafd ;
+  background-color: #aebcca ;
 }
 
 .ng-scope .disabled>a{
@@ -37,16 +45,9 @@
   text-overflow: ellipsis;
   white-space: nowrap; 
 }
-.valute_name:hover .valute_name_text {
-  position: absolute;
-  background-color: green;
-  color: #fff;
-  text-align: center;
-  border-radius: 6px;
-  font-size: 0.8rem; 
-  z-index: 10;
+.option { 
+  font-size: 120%;
 }
-
 
 
 

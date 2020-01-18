@@ -3,6 +3,7 @@
 var currencyApp = angular.module('currencyApp', [
   'valuteList',
   'headerDate',
+  'chartPop'
   ]);
 
 
