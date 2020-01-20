@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Dynamic currency changes</title>
-  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
+  <link rel="stylesheet" href="bootstrap.min.css">
   <link rel="stylesheet" href="app.css">
   <script src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.17.15/lodash.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.7.8/angular.js"></script>
@@ -18,7 +18,10 @@
   <script src="https://cdn.jsdelivr.net/npm/angular-utils-pagination@0.11.1/dirPagination.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/angular-ui-bootstrap/2.5.0/ui-bootstrap-tpls.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.3/Chart.bundle.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.3/Chart.js"></script>
+  <script src="https://momentjs.com/downloads/moment-with-locales.min.js"></script>
+  <script src="services/services.module.js"></script>
+  <script src="services/services.js"></script>
  
 
 <body ngCloak>
@@ -50,9 +53,9 @@
           </th>
           </thead>
         </tr>
-        <tr class="valute_name col-md-3" dir-paginate="prop in valute_array  |itemsPerPage:selectedName | filter:filter.name | orderBy:'Value':reverse" current-page="page" ng-init="$last && finished()" ng-controller='chart' >
+        <tr class="valute_name col-md-3" current-page="page" dir-paginate="prop in valute_array  |itemsPerPage:options.selectedOption.name | filter:filter.name | orderBy:'Value':reverse"   >
           <td>
-            <span class="paki2" ng-bind="prop.CharCode"></span> {{prop.Name}}
+            <span class="paki2">{{prop.CharCode}}</span> {{prop.Name}}
           </td>
           <td>  <span class="paki">{{prop.Value | number:3}}</span> 
               <span class="pl-3" ng-style="{color:((prop.Value - prop.Previous) > 0)  ? 'green' : (prop.Value - prop.Previous) < 0 ? 'red' : 'black' , opacity : (prop.Value - prop.Previous) == 0 ? '0.5' : '1'}">
@@ -71,15 +74,18 @@
       </dir-pagination-controls>
         <span class="pl-2">
          <span class="displayed">Displayed items:</span> 
-          <select id="pag" class="select" ng-model="selectedName" ng-options="option.id as option.label for option in options track by option.id">
-          </select>
+          <select id="pag" class="select" ng-model="options.selectedOption" ng-options="option.name for option in options.availableOptions track by option.name"></select>
         </span> 
       </div>
+     
       <hr>
-      <div ng-controller='chart' id="chart">
+      
+      <div id="chart">
+        <button ng-click='updateg()'>button</button>
         <canvas id="popChart" width="600" height="400"></canvas>
       </div>
   </div>
 </body>
+<footer><a href="https://www.cbr-xml-daily.ru/">Курсы ЦБ РФ в XML и JSON, API</a></footer>
 </html>
 
