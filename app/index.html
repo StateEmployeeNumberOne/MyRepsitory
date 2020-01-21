@@ -53,7 +53,7 @@
           </th>
           </thead>
         </tr>
-        <tr class="valute_name col-md-3" current-page="page" dir-paginate="prop in valute_array  |itemsPerPage:options.selectedOption.name | filter:filter.name | orderBy:'Value':reverse"   >
+        <tr class="valute_name col-md-3" current-page="page" dir-paginate="prop in result  |itemsPerPage:options.selectedOption.name | filter:filter.name | orderBy:'Value':reverse"   >
           <td>
             <span class="paki2">{{prop.CharCode}}</span> {{prop.Name}}
           </td>

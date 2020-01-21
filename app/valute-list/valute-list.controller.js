@@ -3,13 +3,12 @@ angular
   .module('valuteList', [
     "angularUtils.directives.dirPagination",
   ])
-  .controller("valute", function valuteList($scope, $http, service) {
+  .controller("valute", function valuteList($scope, $http, httpFactory) {
     var time = moment(). format('YYYY/MM/DD')
     $http
       .get('https://www.cbr-xml-daily.ru/archive/2020/01/21/daily_json.js')
       .then(function(response) {
         $scope.valute_array = Object.values(response.data.Valute);
-        $scope.current_time = response.data.Date
         for (let k of $scope.valute_array) {
           switch (k.Nominal) {
             // Math.round округляет до 3 знаков после
@@ -36,7 +35,43 @@ angular
               break;
           }
         }
-        console.log(service.test)
+
+        $scope.get = function() {
+          httpFactory.redditGet()
+            .then(function (response) {
+             $scope.result = Object.values(response.data.Valute);
+             for (let k of $scope.result) {
+              switch (k.Nominal) {
+                // Math.round округляет до 3 знаков после
+                // можно сделать через + и toFixed
+                case 10:
+                  k.Value = Math.round((k.Value / 10) * 1000) / 1000;
+                  k.Previous = Math.round((k.Previous / 10) * 1000) / 1000;
+                  break;
+                case 100:
+                  k.Value = Math.round((k.Value / 100) * 1000) / 1000;
+                  k.Previous = Math.round((k.Previous / 100) * 1000) / 1000;
+                  break;
+                case 1000:
+                  k.Value = Math.round((k.Value / 1000) * 1000) / 1000;
+                  k.Previous = Math.round((k.Previous / 1000) * 1000) / 1000;
+                  break;
+                case 10000:
+                  k.Value = Math.round((k.Value / 10000) * 1000) / 1000;
+                  k.Previous = Math.round((k.Previous / 10000) * 1000) / 1000;
+                  break;
+                default:
+                  k.Value = Math.round((k.Value) * 1000) / 1000;
+                  k.Previous = Math.round((k.Previous) * 1000) / 1000;
+                  break;
+              }
+            }
+            console.log($scope.result);
+            }) 
+        }
+        
+        $scope.get();
+
     // var supermassive = {}
     
     // for (var i = 0; i < $scope.valute_array.length; i++) {
