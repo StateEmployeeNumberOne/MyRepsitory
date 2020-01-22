@@ -24,8 +24,8 @@
   <script src="services/services.js"></script>
  
 
-<body ngCloak>
-  <header ng-controller='header' class="row align-items-center border-info border-bottom">
+<body>
+  <header ng-controller='header' class="row align-items-center border-info border-bottom mb-2">
     <div class="col-md-8 text-center align-items-center">
       <img src="molumen_Lenin_silhouette.svg" width="25rem" height="25rem" alt="lenin">
       Dynamic currency changes
@@ -37,7 +37,7 @@
   <div ng-controller='valute'>
     <span class="pl-2 col-md-3 position-absolute update pt-2">
       Last update: <br>
-      {{ current_time | date:'medium' }} 
+      {{ lastUpdate | date:'medium' }} 
     </span>
     <div class="row justify-content-center">
       <table class="table col-md-5 table-bordered table-hover">
@@ -80,8 +80,7 @@
      
       <hr>
       
-      <div id="chart">
-        <button ng-click='updateg()'>button</button>
+      <div id="chart" ng-controller='chartController'>
         <canvas id="popChart" width="600" height="400"></canvas>
       </div>
   </div>
