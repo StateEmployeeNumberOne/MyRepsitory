@@ -1,34 +1,32 @@
 "use strict";
 angular
-  .module("valuteList", ["angularUtils.directives.dirPagination"])
-  .controller("valute", function valuteList($scope, httpFactory) {
-    var time = moment().format("YYYY/MM/DD");
-    $scope.result;
+  .module("valuteModule", ["angularUtils.directives.dirPagination"])
+  .controller("valuteController", function valuteList($scope, httpFactory) {
     httpFactory.getRequestedData().then(function(response) {
       $scope.result = response.valute;
       $scope.lastUpdate = response.date;
+      
     });
-
+    
     //сохраняем номер страницы при перезагрузке
     $scope.page = 1;
     $scope.currentPage = function() {
-      localStorage.setItem("curPage", $scope.page);
-      $scope.update();
-      console.log($scope.result, Date.now());
+      localStorage.setItem("currentPage", $scope.page);
+      console.log(Date.now())
+      $scope.$broadcast('myCustomEvent',$scope.page)
     };
-    if (localStorage.getItem("curPage")) {
-      $scope.page = localStorage.getItem("curPage");
+    if (localStorage.getItem("currentPage")) {
+      $scope.page = localStorage.getItem("currentPage");
     }
 
     // сохраняем порядок сортировки при перезагрузке
     $scope.propertyName = "Value";
-    $scope.sortButtonClick = function() {
+    $scope.sortButton = function() {
       console.log(document.cookie);
       $scope.reverse = JSON.parse(localStorage.getItem("sortOrder"))
         ? false
         : true;
       localStorage.setItem("sortOrder", $scope.reverse);
-      $scope.$broadcast("SendDown", valuteList);
     };
     if (localStorage.getItem("sortOrder")) {
       $scope.reverse = JSON.parse(localStorage.getItem("sortOrder"));
@@ -40,12 +38,15 @@ angular
     };
 
     //сохраняем отображаемые элементы при перезагрузке
-
-    document.getElementById("pag").addEventListener("change", function() {
-      localStorage.setItem("pag", Number(document.getElementById("pag").value));
-      $scope.update();
+    
+    document.getElementById('pagination').addEventListener("change", function() {
+      localStorage.setItem('pagination', Number(document.getElementById('pagination').value));
+      console.log(document.querySelector('#pagi ul li.active a').innerHTML)
+      $scope.$broadcast('myCustomEvent');
     });
-    if (localStorage.getItem("pag")) {
-      $scope.options.selectedOption.name = localStorage.getItem("pag");
+    if (localStorage.getItem('pagination')) {
+      $scope.options.selectedOption.name = localStorage.getItem('pagination');
     }
+
+  
   });

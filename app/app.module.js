@@ -1,8 +1,8 @@
 'use strict';
 
 var currencyApp = angular.module('currencyApp', [
-  'valuteList',
-  'headerDate',
+  'valuteModule',
+  'headerModule',
   'chartModule',
   'httpModule'
   ]);

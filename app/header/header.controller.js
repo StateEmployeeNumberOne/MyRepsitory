@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('headerDate',[]).controller('header',
+angular.module('headerModule',[]).controller('header',
  function($scope, $interval){
   var tick = function(){
     $scope.date = Date.now();

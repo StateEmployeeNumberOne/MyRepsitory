@@ -1,7 +1,18 @@
 @import url('https://fonts.googleapis.com/css?family=Roboto&display=swap');
 
+@media only screen and (max-width: 768px) { .update {
+  display: flex;
+  justify-content: center;
+  text-align: center;
+  position: relative !important;
+  padding: 0rem 0rem !important;
+}}
+
 *{
   font-family: 'Roboto';
+}
+body{
+  cursor: default;
 }
 .displayed{
   position: relative;
@@ -48,6 +59,15 @@
 .option { 
   font-size: 120%;
 }
+.sortButton:hover{
+  cursor: pointer;
+}
+
+
+
+
+
+
 
 
 

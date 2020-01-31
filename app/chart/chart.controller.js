@@ -1,75 +1,114 @@
-'use strict';
+"use strict";
 
-angular.module('chartModule',[]).controller('chartController',
- function($scope,httpFactory){
-  $scope.result;
-  httpFactory.getRequestedData()
- .then(function (response) {
-   console.log(response)
-   $scope.result = response.valute; 
-   
+angular
+  .module("chartModule", [])
+  .controller("chartController", function($scope, httpFactory) {
+    $scope.result;
+
+    $scope.result = httpFactory
+      .getRequestedData()
+      .then(function(response) {
+        $scope.result = response.valute;
+        return response.valute;
+      })
+      .then(function() {
 
 
+        var objectFromRequest = {};
 
+        for (var i = 0; i < $scope.result.length; i++) {
+          var key = $scope.result[i].CharCode;
+          objectFromRequest[key] = $scope.result[i].Value;
+        }
 
-   var supermassive = {}
-    
-    for (var i = 0; i < $scope.result.length; i++) {
-      var key = $scope.result[i].CharCode
-      supermassive[key] = $scope.result[i].Value
-    }
-    for (key in supermassive){
-      console.log(key + '+' + supermassive[key])
-    }
+        var dataArray = _.toPairs(objectFromRequest);
 
-    // setTimeout (function(){console.log(supermassive)},1000)
-    console.log(supermassive)
+        // создаем график
 
-    // создаем график
+        var labels = [];
+        var data = [];
 
-   var labels_test = $scope.result.map(function(e) {
-      return e.CharCode;
-   });
-   var data_test = $scope.result.map(function(e) {
-      return e.Value;
-   });
-   console.log(labels_test,data_test)
-   var labels
-   var data
-   if (localStorage.getItem("curPage") && localStorage.getItem("pag")){
-    labels = labels_test.slice(Number(localStorage.getItem("curPage")*Number(localStorage.getItem("pag"))-Number(localStorage.getItem("pag"))),Number(localStorage.getItem("curPage")*Number(localStorage.getItem("pag"))));
-    
-    data = data_test.slice(Number(localStorage.getItem("curPage")*Number(localStorage.getItem("pag"))-Number(localStorage.getItem("pag"))),Number(localStorage.getItem("curPage")*Number(localStorage.getItem("pag"))));
-    
-  } else {
-    labels = labels_test.splice(0,$scope.displayedItems)
-    data = data_test.splice(0,$scope.displayedItems)
-    }
-    var ctx = document.getElementById('popChart').getContext('2d');
+        var currentPage = Number(localStorage.getItem("currentPage"));
+        var pagination = Number(document.getElementById("pagination").value);
+        var firtsNumberOfSlice = currentPage * pagination - pagination;
+        var secondNumberOfSlice = currentPage * pagination;
+        var iterationLimit;
+        if (
+          localStorage.getItem("currentPage") &&
+          localStorage.getItem("pagination")
+        ) {
+          dataArray = dataArray.slice(firtsNumberOfSlice, secondNumberOfSlice);
+          dataArray.sort(function(a, b) {
+            return b[1] - a[1];
+          });
+          iterationLimit = dataArray.length;
+          for (let i = 0; i < iterationLimit; i++) {
+            labels.push(dataArray[i][0]);
+            data.push(dataArray[i][1]);
+          }
+        } else {
+          dataArray = dataArray.slice(0, pagination);
+          dataArray.sort(function(a, b) {
+            return b[1] - a[1];
+          });
+          iterationLimit = dataArray.length;
+          for (let i = 0; i < iterationLimit; i++) {
+            labels.push(dataArray[i][0]);
+            data.push(dataArray[i][1]);
+          }
+        }
+        var ctx = document.getElementById("popChart").getContext("2d");
 
-     var popChart =  new Chart(ctx, {
-       type: 'bar',
-     data: {
-       labels: labels,
-       datasets: [{
-           label: 'My Super Table',
-           backgroundColor: 'rgb(255, 99, 132)',
-           borderColor: 'rgb(255, 99, 132)',
-           data: data,
-       }]
-   },
-   options: {
-     offset:true,
-     responisve: true
-   }
-   });
-
-   $scope.update = function (){
-    popChart.data.labels = labels_test.slice(Number(localStorage.getItem("curPage")*Number(localStorage.getItem("pag"))-Number(localStorage.getItem("pag"))),Number(localStorage.getItem("curPage")*Number(localStorage.getItem("pag"))));
-    popChart.data.datasets[0].data = data_test.slice(Number(localStorage.getItem("curPage")*Number(localStorage.getItem("pag"))-Number(localStorage.getItem("pag"))),Number(localStorage.getItem("curPage")*Number(localStorage.getItem("pag"))));
-    popChart.update();
-      console.log(data,labels)
-    }
-  
-  })
-  })
+        var popChart = new Chart(ctx, {
+          type: "bar",
+          data: {
+            labels: labels,
+            datasets: [
+              {
+                label: "Rubles",
+                backgroundColor: "rgb(255, 99, 132)",
+                borderColor: "rgb(255, 99, 132)",
+                data: data
+              }
+            ]
+          },
+          options: {
+            offset: true,
+            responisve: true,
+            tooltips: { intersect: false }
+          }
+        });
+        $scope.$on("myCustomEvent", function() {
+          currentPage = Number(document.querySelector("#pagi ul li.active a").innerHTML);
+          pagination = Number(document.getElementById("pagination").value);
+          firtsNumberOfSlice = currentPage * pagination - pagination;
+          secondNumberOfSlice = currentPage * pagination;
+          dataArray = _.toPairs(objectFromRequest);
+          dataArray = dataArray.slice(firtsNumberOfSlice, secondNumberOfSlice);
+          dataArray.sort(function(a, b) {
+            return b[1] - a[1];
+          });
+          if (dataArray.length < pagination) {
+            currentPage = Math.round(34 / pagination);
+            firtsNumberOfSlice = currentPage * pagination - pagination;
+            secondNumberOfSlice = currentPage * pagination;
+            dataArray = _.toPairs(objectFromRequest);
+            dataArray = dataArray.slice(firtsNumberOfSlice,secondNumberOfSlice);
+            dataArray.sort(function(a, b) {
+              return b[1] - a[1];
+            });
+          }
+          var updateLabels = [];
+          var updateData = [];
+          iterationLimit = dataArray.length;
+          for (let i = 0; i < iterationLimit; i++) {
+            updateLabels.push(dataArray[i][0]);
+            updateData.push(dataArray[i][1]);
+          }
+          popChart.data.labels = updateLabels;
+          popChart.data.datasets[0].data = updateData;
+          popChart.update();
+          localStorage.setItem("currentPage", currentPage);
+        });
+      });
+  });
