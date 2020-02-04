@@ -1,60 +1,58 @@
 <!DOCTYPE html>
-<html lang="en" ng-app="currencyApp">
+<html lang='en' ng-app='currencyApp'>
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset='UTF-8'>
+  <meta name='viewport' content='width=device-width, initial-scale=1.0'>
   <title>Dynamic currency changes</title>
-  <link rel="stylesheet" href="bootstrap.min.css">
-  <link rel="stylesheet" href="app.css">
-
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.17.15/lodash.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.7.8/angular.js"></script>
-  <script src="services/services.js"></script>
-  <script src="valute-list/valute-list.controller.js"></script>
-  <script src="app.module.js"></script>
-  <script src="header/header.controller.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/angular-utils-pagination@0.11.1/dirPagination.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/angular-ui-bootstrap/2.5.0/ui-bootstrap-tpls.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.3/Chart.js"></script>
-  <script src="https://momentjs.com/downloads/moment-with-locales.min.js"></script>
- 
-
+  <link rel='stylesheet' href='bootstrap.min.css'>
+  <link rel='stylesheet' href='app.css'>
+  <script src='https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.17.15/lodash.js'></script>
+  <script src='https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.7.8/angular.js'></script>
+  <script src='services/services.js'></script>
+  <script src='valute-list/valute-list.controller.js'></script>
+  <script src='app.module.js'></script>
+  <script src='header/header.controller.js'></script>
+  <script src='chart/chart.controller.js'></script>
+  <script src='https://cdn.jsdelivr.net/npm/angular-utils-pagination@0.11.1/dirPagination.js'></script>
+  <script src='https://cdnjs.cloudflare.com/ajax/libs/angular-ui-bootstrap/2.5.0/ui-bootstrap-tpls.js'></script>
+  <script src='https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.js'></script>
+  <script src='https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.3/Chart.js'></script>
+  <script src='https://momentjs.com/downloads/moment-with-locales.min.js'></script>
 <body>
-  <header ng-controller='header' class="row align-items-center border-info border-bottom">
-    <div class="col-md-8 text-center">
-      <img src="molumen_Lenin_silhouette.svg" width="25rem" height="25rem" alt="lenin">
+  <header ng-controller='headerController' class='d-flex align-items-center border-info border-bottom'>
+    <div class='col-md-8 text-center'>
+      <img src='molumen_Lenin_silhouette.svg' width='25rem' height='25rem' alt='lenin'>
       Dynamic currency change
     </div>
-    <div class="col-md-4 border-info border-left text-center">
+    <div class='col-md-4 border-info border-left text-center'>
       Current date is: <br> {{ date | date:'medium' }}
     </div>
   </header>
   <div ng-controller='valuteController'>
-    <span class="pl-2 position-absolute update pt-2">
+    <span class='position-absolute update pt-2 pl-2'>
       Last update: <br>
       {{ lastUpdate | date:'medium' }} 
     </span>
-    <div id="wrapper" class="row justify-content-center pl-3">
-      <table class="table table-bordered table-hover col-md-7">
-        <thead class="thead-dark  ">
-        <tr class="d-flex">
-          <th class="col-md-7" >
-            <input  style="height:1.5rem" class="col-md-7" placeholder="Search" type="text" ng-model="filter.name" />
+    <div class='d-flex justify-content-center'>
+      <table class='table table-bordered table-hover col-md-7'>
+        <thead class='thead-dark  '>
+        <tr class='d-flex'>
+          <th class='col-md-7' >
+            <input  style='height:1.5rem' class='col-md-7' placeholder='Search' type='text' ng-model='filter.name'/>
           </th>
-          <th class="col-md-5">
+          <th class='col-md-5'>
             <span>RUB</span>
-            <span ng-if='!reverse' class="sortButton"  ng-click="sortButton()">&#9660</span>
-            <span ng-if='reverse' class="sortButton"  ng-click="sortButton()">&#9650</span>
+            <span ng-if='!reverse' class='sortButton'  ng-click='sortButton()'>&#9660</span>
+            <span ng-if='reverse' class='sortButton'  ng-click='sortButton()'>&#9650</span>
           </th>
           </thead>
         </tr>
-        <tr class="valute_name d-flex" current-page="page" dir-paginate="prop in result  |itemsPerPage:options.selectedOption.name | filter:filter.name | orderBy:'Value':reverse"   >
-          <td class="col-md-7">
+        <tr class='valute_name d-flex' current-page='page' dir-paginate="prop in result | itemsPerPage:options.selectedOption.name | filter:filter.name | orderBy:'Value': reverse"   >
+          <td class='col-md-7'>
             <span>{{prop.CharCode}}</span> {{prop.Name}}
           </td>
-          <td class="col-md-5">  
-              <span class="pr-3">{{prop.Value | number:3}}</span> 
+          <td class='col-md-5'>  
+              <span class='pr-3'>{{prop.Value | number:3}}</span> 
               <span ng-style="{color:((prop.Value - prop.Previous) > 0)  ? 'green' : (prop.Value - prop.Previous) < 0 ? 'red' : 'black' , opacity : (prop.Value - prop.Previous) == 0 ? '0.5' : '1'}">
               {{prop.Value - prop.Previous | number:3 }}{{(prop.Value - prop.Previous) > 0 ? '\u2B61' : (prop.Value - prop.Previous) < 0 ? '\u2B63' : '\u2B62'}}
               </span>
@@ -62,29 +60,27 @@
         </tr>
       </table>
     </div>
-      <div class="row justify-content-center">
-        <dir-pagination-controls 
-        class="thead-dark"
-        id="pagi"
-        ng-click="currentPage()"  
-        max-size="7"
-        direction-links="true">
-      </dir-pagination-controls>
-        <span class="pl-2">
-         <span class="displayed">Displayed items:</span> 
-          <select  id='pagination' class="select" ng-model="options.selectedOption" ng-options="option.name for option in options.availableOptions track by option.name"></select>
+      <div class='d-flex justify-content-center'>
+        <dir-pagination-controls
+        id='listNumber' 
+        class='thead-dark'
+        ng-click='currentPage()'  
+        max-size='7'
+        direction-links='true'>
+      </dir-pagination-controls
+      >
+        <span class='pl-2'>
+         <span class='selectText'>Displayed items:</span> 
+          <select  id='pagination' class='select' ng-model='options.selectedOption' ng-options='option.name for option in options.availableOptions track by option.name'></select>
         </span> 
       </div>
-     
       <hr>
-      
-      <div id="chart" class="justify-content-center row" ng-controller='chartController'>
-        <canvas id="popChart" class="col-md-8" width="600" height="400"></canvas>
+      <div id='chart' class='justify-content-center d-flex' ng-controller='chartController'>
+        <canvas id='popChart' class='col-md-8' width='600' height='400'></canvas>
       </div>
   </div>
   <hr>
 </body>
-<footer class="text-center "><a class="text-secondary" href="https://www.cbr-xml-daily.ru/">Спасибо Владимиру Владимировичу за доступ к API</a></footer>
+<footer class='text-center'><a class='text-secondary' href='https://www.cbr-xml-daily.ru/'>Спасибо Владимиру Владимировичу за доступ к API</a></footer>
 </html>
 
-<script src="chart/chart.controller.js"></script>
