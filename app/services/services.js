@@ -1,7 +1,8 @@
 angular.module("httpModule", []).factory("httpFactory", function() {
   function manageData() {
-    xhr = new XMLHttpRequest();
-    xhr.open("GET", "https://www.cbr-xml-daily.ru/daily_json.js", false);
+    var time = moment().format("YYYY/MM/DD")
+    var xhr = new XMLHttpRequest();
+    xhr.open("GET", "https://www.cbr-xml-daily.ru/archive/" + time + "/daily_json.js", false);
     xhr.send();
     var mas = JSON.parse(xhr.response);
     var b = mas.Date;

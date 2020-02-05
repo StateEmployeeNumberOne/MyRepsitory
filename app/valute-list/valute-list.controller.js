@@ -6,7 +6,7 @@ angular
     $scope.lastUpdate = httpFactory.manageData.date;
 
     //сохраняем номер страницы при перезагрузке
-    
+
     $scope.page = 1;
     $scope.currentPage = function() {
       localStorage.setItem("currentPage", $scope.page);
@@ -20,7 +20,6 @@ angular
 
     $scope.propertyName = "Value";
     $scope.sortButton = function() {
-      console.log(document.cookie);
       $scope.reverse = JSON.parse(localStorage.getItem("sortOrder"))
         ? false
         : true;

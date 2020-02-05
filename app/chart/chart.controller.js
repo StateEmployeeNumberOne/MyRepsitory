@@ -10,7 +10,6 @@ angular
       objectFromRequest[key] = $scope.result[i].Value;
     }
     var dataArray = _.toPairs(objectFromRequest);
-
     // считаем данные для графика
     var labels = [];
     var data = [];
