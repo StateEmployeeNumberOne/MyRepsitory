@@ -12,7 +12,6 @@ angular
     var dataArray = _.toPairs(objectFromRequest);
 
     // считаем данные для графика
-
     var labels = [];
     var data = [];
 
@@ -35,6 +34,7 @@ angular
         data.push(dataArray[i][1]);
       }
     } else {
+      pagination = 9;
       dataArray = dataArray.slice(0, pagination);
       dataArray.sort(function(a, b) {
         return b[1] - a[1];
